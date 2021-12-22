@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 import tensorflow.keras as keras
 import matplotlib.pyplot as plt
-from models import load_simple_fcn_with_border, load_simple_fcn_no_border
+from models import load_simple_fcn_with_border, load_simple_fcn_no_border, get_unet
 
 
 def _parse_function(image_filename: str,
@@ -114,16 +114,19 @@ if __name__ == "__main__":
     validation_path = "/Users/dani/repositories/computer_vision/CompVisData/val"
     log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
-    # Load FCN with border
+    ####### START LOAD FCN WITH BORDER ###########
     # model, border = load_simple_fcn_with_border()
+    ####### END LOAD FCN WITH BORDER ###########
 
-    # Load FCN no border
+    ########### START LOAD FCN NO BORDER ###########
     # model = load_simple_fcn_no_border()
+    ########### END LOAD FCN NO BORDER ###########
 
-    # Load U-NET
+    ########### START LOAD U-NET ##########
     input_img = keras.layers.Input((IMAGE_HEIGHT, IMAGE_WIDTH, 3), name='img')
     model = get_unet(input_img, n_filters=16, dropout=0.05, batchnorm=True)
     u_net = True
+    ########### END LOAD U-NET ##########
 
     train_dataset = load_dataset(path=train_path, border=border, u_net=u_net)
     val_dataset = load_dataset(path=validation_path, border=border, u_net=u_net)
