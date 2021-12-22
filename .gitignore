@@ -2,3 +2,5 @@
 09-FCN for Semantic Segmentation-ML.ipynb
 /CompVisData
 .DS_Store
+/logs
+__pycache__/
