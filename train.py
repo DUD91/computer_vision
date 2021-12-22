@@ -138,8 +138,8 @@ if __name__ == "__main__":
     #LOSS = tf.keras.losses.Spar()
     NR_CLASSES = 34
 
-    train_path = "/Users/dani/repositories/computer-vision/assignment02/CompVisData/train"
-    validation_path = "/Users/dani/repositories/computer-vision/assignment02/CompVisData/val"
+    train_path = "/Users/dani/repositories/computer_vision/CompVisData/train"
+    validation_path = "/Users/dani/repositories/computer_vision/CompVisData/val"
 
     # Load model
     model, border = load_simple_fcn_with_border()
