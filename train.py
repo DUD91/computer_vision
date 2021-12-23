@@ -78,6 +78,7 @@ if __name__ == "__main__":
     print("model loaded")
     print(model.summary())
     model.compile(optimizer='adam', loss=LOSS, metrics=["accuracy"])
+    # TODO: Implement early stopping
     model_history = model.fit(train_batches,
                               epochs=50,
                               validation_data=val_batches,
