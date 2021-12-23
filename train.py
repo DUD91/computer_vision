@@ -101,12 +101,7 @@ if __name__ == "__main__":
     visualize_history_metrics(history=model_history)
 
 
-<<<<<<< Updated upstream
-
     model.save('/computer_vision/saved_models/u_net_augmented')
-=======
-    model.save('./computer_vision/saved_models/u_net_augmented')
 
 
 
->>>>>>> Stashed changes
