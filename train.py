@@ -41,9 +41,9 @@ if __name__ == "__main__":
     OPTIMIZER = tf.keras.optimizers.Adam(learning_rate=0.0001)
 
     # DIRECTORIES & Variables
-    train_path = "/Users/dani/repositories/computer_vision/CompVisData/train2"
-    validation_path = "/Users/dani/repositories/computer_vision/CompVisData/val"
-    test_path = "/Users/dani/repositories/computer_vision/CompVisData/test"
+    train_path = "./CompVisData/train2"
+    validation_path = "./CompVisData/val"
+    test_path = "./CompVisData/test"
     log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     border = None
 
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     print(model.summary())
     model.compile(optimizer='adam', loss=LOSS, metrics=["accuracy"])
     model_history = model.fit(train_batches,
-                              epochs=30,
+                              epochs=50,
                               validation_data=val_batches,
                               callbacks=[tensorboard_callback]
                               )
@@ -90,4 +90,4 @@ if __name__ == "__main__":
 
     print("Finished training")
 
-    model.save('/Users/dani/repositories/computer_vision/saved_models/u_net_augmented')
+    model.save('./computer_vision/saved_models/u_net_augmented')
