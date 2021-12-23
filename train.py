@@ -1,4 +1,5 @@
 import datetime
+import time
 import tensorflow as tf
 import tensorflow.keras as keras
 import matplotlib.pyplot as plt
@@ -41,9 +42,9 @@ if __name__ == "__main__":
     OPTIMIZER = tf.keras.optimizers.Adam(learning_rate=0.0001)
 
     # DIRECTORIES & Variables
-    train_path = "./CompVisData/train2"
-    validation_path = "./CompVisData/val"
-    test_path = "./CompVisData/test"
+    train_path = "/CompVisData/train2"
+    validation_path = "/CompVisData/val"
+    test_path = "/CompVisData/test"
     log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     border = None
 
@@ -78,6 +79,7 @@ if __name__ == "__main__":
     print("model loaded")
     print(model.summary())
     model.compile(optimizer='adam', loss=LOSS, metrics=["accuracy"])
+    start_train_loop = int(time.time())
     model_history = model.fit(train_batches,
                               epochs=50,
                               validation_data=val_batches,
@@ -85,9 +87,11 @@ if __name__ == "__main__":
                               )
 
     # SAVE MODEL
-
+    num_secs = int(time.time()) - start_train_loop
+    print("Finished training")
+    print(f"Model training took {str(datetime.timedelta(seconds=num_secs))}")
     visualize_history_metrics(history=model_history)
 
-    print("Finished training")
 
-    model.save('./computer_vision/saved_models/u_net_augmented')
+
+    model.save('/computer_vision/saved_models/u_net_augmented')
