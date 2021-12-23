@@ -1,6 +1,4 @@
-import os
 import datetime
-import numpy as np
 import tensorflow as tf
 import tensorflow.keras as keras
 import matplotlib.pyplot as plt
@@ -16,20 +14,18 @@ def visualize_history_metrics(history):
     # LOSS
     axs[0].plot(history.epoch, loss, 'r', label='Training loss')
     axs[0].plot(history.epoch, val_loss, 'bo', label='Validation loss')
-    axs[0].set(xlabel= "Epoch", ylabel="Loss Value", title='Training and Validation Loss')
+    axs[0].set(xlabel="Epoch", ylabel="Loss Value", title='Training and Validation Loss')
     axs[0].legend()
 
     # ACCURACY
     axs[1].plot(history.epoch, acc, 'r', label='Training Accuracy')
     axs[1].plot(history.epoch, val_acc, 'bo', label='Validation Accuracy')
-    axs[1].set(xlabel= "Epoch", ylabel="Accuracy Value", title='Training and Validation Accuracy')
+    axs[1].set(xlabel="Epoch", ylabel="Accuracy Value", title='Training and Validation Accuracy')
     axs[1].legend()
 
     fig.tight_layout()
 
     plt.show()
-
-
 
 
 if __name__ == "__main__":
@@ -92,7 +88,6 @@ if __name__ == "__main__":
 
     visualize_history_metrics(history=model_history)
 
-
-    print("finished training")
+    print("Finished training")
 
     model.save('/Users/dani/repositories/computer_vision/saved_models/u_net_augmented')
