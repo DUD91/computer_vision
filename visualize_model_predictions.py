@@ -11,20 +11,20 @@ border = None
 
 trained_model = tf.keras.models.load_model('saved_models/u_net')
 
+
 def create_mask(mask):
-  mask = tf.argmax(mask, axis=-1)
-  #pred_mask = pred_mask[:, tf.newaxis]
-  #mask = tf.reshape(mask, shape=[1, mask.shape[0], mask.shape[1]])
-  return mask
+    mask = tf.argmax(mask, axis=-1)
+    return mask
+
 
 def show_predictions(model, dataset=None,  num=1):
-  if dataset:
-    for image, mask in dataset.take(num):
-        mask = create_mask(mask)
-        image = tf.reshape(image, shape=[1, image.shape[0], image.shape[1], image.shape[2]])
-        pred_mask = model.predict(image)
-        pred_mask = create_mask(pred_mask)
-        display_sample([image[0], mask, pred_mask[0]])
+    if dataset:
+        for image, mask in dataset.take(num):
+            mask = create_mask(mask)
+            image = tf.reshape(image, shape=[1, image.shape[0], image.shape[1], image.shape[2]])
+            pred_mask = model.predict(image)
+            pred_mask = create_mask(pred_mask)
+            display_sample([image[0], mask, pred_mask[0]])
 
 def display_sample(display_list):
     """Show side-by-side an input image,
@@ -47,19 +47,15 @@ def display_sample(display_list):
         plt.axis('off')
     plt.show()
 
+
 if __name__ == "__main__":
-# Check its architecture
+    # Check its architecture
     trained_model = tf.keras.models.load_model('saved_models/u_net')
     trained_model.summary()
 
-
-    # TODO: Prepare Testset
     test_path = "/Users/dani/repositories/computer_vision/CompVisData/test"
     test_dataset = load_dataset(path=test_path, border=border)
-    #test_batches = test_dataset.batch(batch_size=64)
-    show_predictions(dataset=test_dataset, model=trained_model, num = 20)
-    #loss, acc = trained_model.evaluate(test_batches, verbose=2)
-    #print('Restored model, accuracy: {:5.2f}%'.format(100 * acc))
+    show_predictions(dataset=test_dataset, model=trained_model, num=20)
 
 
 
