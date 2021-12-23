@@ -75,6 +75,12 @@ if __name__ == "__main__":
                                                           histogram_freq=1,
                                                           write_graph=True,
                                                           write_grads=True)
+    early_stopping_callback = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy',
+                                                               min_delta=0.01,
+                                                               patience=5,
+                                                               mode='auto',
+                                                               restore_best_weights=True)
+
 
     print("model loaded")
     print(model.summary())
@@ -87,6 +93,7 @@ if __name__ == "__main__":
                               callbacks=[tensorboard_callback]
                               )
 
+
     # SAVE MODEL
     num_secs = int(time.time()) - start_train_loop
     print("Finished training")
@@ -94,5 +101,12 @@ if __name__ == "__main__":
     visualize_history_metrics(history=model_history)
 
 
+<<<<<<< Updated upstream
 
     model.save('/computer_vision/saved_models/u_net_augmented')
+=======
+    model.save('./computer_vision/saved_models/u_net_augmented')
+
+
+
+>>>>>>> Stashed changes
