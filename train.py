@@ -42,10 +42,10 @@ if __name__ == "__main__":
     OPTIMIZER = tf.keras.optimizers.Adam(learning_rate=0.0001)
 
     # DIRECTORIES & Variables
-    train_path = "/CompVisData/train2"
-    validation_path = "/CompVisData/val"
-    test_path = "/CompVisData/test"
-    log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    train_path = "./CompVisData/train2"
+    validation_path = "./CompVisData/val"
+    test_path = "./CompVisData/test"
+    log_dir = "./logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     border = None
 
     ####### START LOAD FCN WITH BORDER ###########
@@ -88,9 +88,9 @@ if __name__ == "__main__":
     start_train_loop = int(time.time())
     # TODO: Implement early stopping
     model_history = model.fit(train_batches,
-                              epochs=50,
+                              epochs=100,
                               validation_data=val_batches,
-                              callbacks=[tensorboard_callback]
+                              callbacks=[tensorboard_callback, early_stopping_callback]
                               )
 
 
@@ -101,7 +101,7 @@ if __name__ == "__main__":
     visualize_history_metrics(history=model_history)
 
 
-    model.save('/computer_vision/saved_models/u_net_augmented')
+    model.save('./computer_vision/saved_models/u_net_augmented_e100')
 
 
 
