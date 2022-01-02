@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 from matplotlib import pyplot as plt
+from load_data import get_train_val_test_split
 
 from load_data import load_dataset
 
@@ -25,6 +26,7 @@ def show_predictions(model, dataset=None,  num=1):
             pred_mask = model.predict(image)
             pred_mask = create_mask(pred_mask)
             display_sample([image[0], mask, pred_mask[0]])
+
 
 def display_sample(display_list):
     """Show side-by-side an input image,
@@ -53,8 +55,12 @@ if __name__ == "__main__":
     trained_model = tf.keras.models.load_model('saved_models/u_net')
     trained_model.summary()
 
-    test_path = "/Users/dani/repositories/computer_vision/CompVisData/test"
-    test_dataset = load_dataset(path=test_path, border=border)
+    data_dir = "./CompVisData/"
+
+    # Check model summary (output-layer) if border is not None (only applicable for FCN with border)
+    border = None
+    _, _, test_dataset = get_train_val_test_split(data_dir=data_dir, border=border)
+
     show_predictions(dataset=test_dataset, model=trained_model, num=20)
 
 

@@ -4,7 +4,7 @@ import tensorflow as tf
 import tensorflow.keras as keras
 import matplotlib.pyplot as plt
 from models import load_simple_fcn_with_border, load_simple_fcn_no_border, get_unet
-from load_data import load_dataset
+from load_data import get_train_val_test_split
 
 
 def visualize_history_metrics(history):
@@ -42,10 +42,10 @@ if __name__ == "__main__":
     OPTIMIZER = tf.keras.optimizers.Adam(learning_rate=0.0001)
 
     # DIRECTORIES & Variables
-    train_path = "./CompVisData/train2"
-    validation_path = "./CompVisData/val"
-    test_path = "./CompVisData/test"
+    data_dir = "./CompVisData/"
     log_dir = "./logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+
+    # Instantiate non-border (might change for FCN with border)
     border = None
 
     ####### START LOAD FCN WITH BORDER ###########
@@ -62,15 +62,13 @@ if __name__ == "__main__":
     u_net = True
     ########### END LOAD U-NET ##########
 
-    # train, val, test =
+    train_dataset, val_dataset, test_dataset = get_train_val_test_split(data_dir=data_dir, border=border)
 
-    train_dataset = load_dataset(path=train_path, border=border, train=True)
-    val_dataset = load_dataset(path=validation_path, border=border)
-    test_dataset = load_dataset(path=test_path, border=border)
-
+    # Create dataset batches
     train_batches = train_dataset.batch(batch_size=BATCH_SIZE)
     val_batches = val_dataset.batch(batch_size=BATCH_SIZE)
 
+    # Define Callbacks
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir,
                                                           histogram_freq=1,
                                                           write_graph=True,
@@ -81,25 +79,22 @@ if __name__ == "__main__":
                                                                mode='auto',
                                                                restore_best_weights=True)
 
-
-    print("model loaded")
+    print("Model loaded")
     print(model.summary())
+    epochs = 100
     model.compile(optimizer='adam', loss=LOSS, metrics=["accuracy"])
     start_train_loop = int(time.time())
-    # TODO: Implement early stopping
     model_history = model.fit(train_batches,
-                              epochs=100,
+                              epochs=epochs,
                               validation_data=val_batches,
                               callbacks=[tensorboard_callback, early_stopping_callback]
                               )
 
-
-    # SAVE MODEL
+    # SAVE & Visualize MODEL
     num_secs = int(time.time()) - start_train_loop
     print("Finished training")
     print(f"Model training took {str(datetime.timedelta(seconds=num_secs))}")
     visualize_history_metrics(history=model_history)
-
 
     model.save('./computer_vision/saved_models/u_net_augmented_e100')
 

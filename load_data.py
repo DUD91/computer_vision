@@ -88,3 +88,18 @@ def load_dataset(path: str, border:int = None, train: bool = False) -> tf.data.D
 
     return dataset
 
+
+def get_train_val_test_split(data_dir: str, border: int = None, dryrun: bool = False):
+    train_path = data_dir + "train"
+    if not dryrun:
+        train_path += "2"
+    validation_path = data_dir + "val"
+    test_path = data_dir + "test"
+
+    train_dataset = load_dataset(path=train_path, border=border, train=True)
+    val_dataset = load_dataset(path=validation_path, border=border)
+    test_dataset = load_dataset(path=test_path, border=border)
+
+    return train_dataset, val_dataset, test_dataset
+
+
