@@ -1,3 +1,4 @@
+import os
 import datetime
 import time
 import tensorflow as tf
@@ -30,10 +31,8 @@ def visualize_history_metrics(history):
 
 
 if __name__ == "__main__":
-    from tensorflow.python.client import device_lib
+    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
-    print(device_lib.list_local_devices())
-    print(tf.version.VERSION)
     IMAGE_WIDTH = 128
     IMAGE_HEIGHT = 128
     BATCH_SIZE = 64
@@ -45,22 +44,17 @@ if __name__ == "__main__":
     data_dir = "./CompVisData/"
     log_dir = "./logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
-    # Instantiate non-border (might change for FCN with border)
+    input = input("Insert one of the following options: \n 1: FCN without border \n 2: FCN with border \n 3: u_net \n")
+    print("Chosen input:", input)
+
     border = None
-
-    ####### START LOAD FCN WITH BORDER ###########
-    # model, border = load_simple_fcn_with_border()
-    ####### END LOAD FCN WITH BORDER ###########
-
-    ########### START LOAD FCN NO BORDER ###########
-    # model = load_simple_fcn_no_border()
-    ########### END LOAD FCN NO BORDER ###########
-
-    ########### START LOAD U-NET ##########
-    input_img = keras.layers.Input((IMAGE_HEIGHT, IMAGE_WIDTH, 3), name='img')
-    model = get_unet(input_img, n_filters=16, dropout=0.05, batchnorm=True)
-    u_net = True
-    ########### END LOAD U-NET ##########
+    if input == 1:
+        model = load_simple_fcn_no_border()
+    elif input == 2:
+        model, border = load_simple_fcn_with_border()
+    else:
+        input_img = keras.layers.Input((IMAGE_HEIGHT, IMAGE_WIDTH, 3), name='img')
+        model = get_unet(input_img, n_filters=16, dropout=0.05, batchnorm=True)
 
     train_dataset, val_dataset, test_dataset = get_train_val_test_split(data_dir=data_dir, border=border)
 
