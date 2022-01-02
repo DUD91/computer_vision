@@ -3,7 +3,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 from load_data import get_train_val_test_split
 
-from load_data import load_dataset
 
 CHANNELS = 3
 IMAGE_WIDTH = 128
@@ -52,7 +51,7 @@ def display_sample(display_list):
 
 if __name__ == "__main__":
     # Check its architecture
-    trained_model = tf.keras.models.load_model('saved_models/u_net')
+    trained_model = tf.keras.models.load_model('saved_models/u_net_augmented_e50')
     trained_model.summary()
 
     data_dir = "./CompVisData/"

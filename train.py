@@ -61,6 +61,7 @@ if __name__ == "__main__":
     # Create dataset batches
     train_batches = train_dataset.batch(batch_size=BATCH_SIZE)
     val_batches = val_dataset.batch(batch_size=BATCH_SIZE)
+    test_batches = test_dataset.batch(batch_size=BATCH_SIZE)
 
     # Define Callbacks
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir,
@@ -75,13 +76,13 @@ if __name__ == "__main__":
 
     print("Model loaded")
     print(model.summary())
-    epochs = 100
+    EPOCHS = 50
     model.compile(optimizer='adam', loss=LOSS, metrics=["accuracy"])
     start_train_loop = int(time.time())
     model_history = model.fit(train_batches,
-                              epochs=epochs,
+                              epochs=EPOCHS,
                               validation_data=val_batches,
-                              callbacks=[tensorboard_callback, early_stopping_callback]
+                              callbacks=[tensorboard_callback]
                               )
 
     # SAVE & Visualize MODEL
@@ -90,7 +91,11 @@ if __name__ == "__main__":
     print(f"Model training took {str(datetime.timedelta(seconds=num_secs))}")
     visualize_history_metrics(history=model_history)
 
-    model.save('./saved_models/u_net_augmented_e100')
+    print("Evaluate on test data")
+    results = model.evaluate(test_batches)
+    print(results)
+
+    model.save('./saved_models/u_net_augmented_e50')
 
 
 
