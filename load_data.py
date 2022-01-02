@@ -1,12 +1,12 @@
 import os
 import numpy as np
 import tensorflow as tf
-from typing import List
 
 IMAGE_HEIGHT = 128
 IMAGE_WIDTH = 128
 CHANNELS = 3
 NR_CLASSES = 34
+
 
 def _parse_function(image_filename: str,
                     label_filename: str,
@@ -36,6 +36,7 @@ def _parse_function(image_filename: str,
     label = tf.reshape(label, shape=[label.shape[0], label.shape[1], NR_CLASSES])
 
     return image, label
+
 
 def get_images_and_labels(images):
     image_files = []
