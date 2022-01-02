@@ -90,7 +90,7 @@ if __name__ == "__main__":
     print(f"Model training took {str(datetime.timedelta(seconds=num_secs))}")
     visualize_history_metrics(history=model_history)
 
-    model.save('./computer_vision/saved_models/u_net_augmented_e100')
+    model.save('./saved_models/u_net_augmented_e100')
 
 
 
